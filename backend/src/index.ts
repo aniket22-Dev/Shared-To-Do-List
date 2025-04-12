@@ -2,6 +2,7 @@ import fastify from 'fastify';
 import userRoutes from './routes/userRoutes.ts';
 import taskRoutes from './routes/taskRoutes.ts';
 import axios from 'axios';  // Import axios to make HTTP requests
+import fastifyCors from '@fastify/cors';  // Import the updated CORS plugin
 
 require('dotenv').config();
 
@@ -10,6 +11,11 @@ export const app = fastify({
     logger: {
         level: 'info',
     },
+});
+
+// Register CORS plugin with default options (this will allow all origins)
+app.register(fastifyCors, {
+    origin: '*',  // Allow all origins (you can restrict this to specific domains if needed)
 });
 
 // Sample route
