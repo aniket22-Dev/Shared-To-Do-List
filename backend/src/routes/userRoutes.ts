@@ -12,7 +12,7 @@ export default async function userRoutes(fastify: FastifyInstance) {
             let userRecord;
             try {
                 userRecord = await admin.auth().getUserByEmail(email);
-            } catch (error) {
+            } catch (error: any) {
                 if (error.code !== 'auth/user-not-found') {
                     // If error is not user-not-found, rethrow it
                     throw error;
@@ -54,7 +54,7 @@ export default async function userRoutes(fastify: FastifyInstance) {
                     uid: newUser.uid,  // Return UID here
                 },
             });
-        } catch (error) {
+        } catch (error: any) {
             console.error('Error during sign up:', error);
             return reply.status(400).send({ error: error.message });
         }
@@ -92,7 +92,7 @@ export default async function userRoutes(fastify: FastifyInstance) {
                 customToken,
                 userId,  // Send the user ID from PostgreSQL
             });
-        } catch (error) {
+        } catch (error: any) {
             return reply.status(400).send({ error: 'Error logging in: ' + error.message });
         }
     });
@@ -106,7 +106,7 @@ export default async function userRoutes(fastify: FastifyInstance) {
             const uid = decodedToken.uid;
 
             return reply.send({ uid, message: 'User authenticated successfully' });
-        } catch (error) {
+        } catch (error: any) {
             return reply.status(400).send({ error: 'Invalid or expired ID token' });
         }
     });

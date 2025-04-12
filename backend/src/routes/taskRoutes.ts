@@ -12,7 +12,7 @@ export default async function taskRoutes(fastify: FastifyInstance) {
                 task, // The created task
                 userId: created_by  // Add userId to the response
             });
-        } catch (error) {
+        } catch (error: any) {
             return reply.status(400).send({ error: error.message });
         }
     });
@@ -27,7 +27,7 @@ export default async function taskRoutes(fastify: FastifyInstance) {
                 sharedTask, // The shared task entry
                 userId: user_id  // Add userId to the response
             });
-        } catch (error) {
+        } catch (error: any) {
             return reply.status(400).send({ error: error.message });
         }
     });
@@ -53,7 +53,7 @@ export default async function taskRoutes(fastify: FastifyInstance) {
                 tasks, // The list of tasks
                 userId: user_id  // Add userId to the response
             });
-        } catch (error) {
+        } catch (error: any) {
             return reply.status(400).send({ error: error.message });
         }
     });
@@ -68,7 +68,7 @@ export default async function taskRoutes(fastify: FastifyInstance) {
                 tasks,  // The tasks created by the user
                 userId: user_id  // Add userId to the response
             });
-        } catch (error) {
+        } catch (error: any) {
             return reply.status(400).send({ error: error.message });
         }
     });
@@ -83,7 +83,7 @@ export default async function taskRoutes(fastify: FastifyInstance) {
                 tasks,  // The tasks shared with the user
                 userId: user_id  // Add userId to the response
             });
-        } catch (error) {
+        } catch (error: any) {
             return reply.status(400).send({ error: error.message });
         }
     });

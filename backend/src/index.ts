@@ -45,7 +45,7 @@ const pingServer = async () => {
     try {
         await axios.get('https://shared-to-do-list.onrender.com');  // Ping the server
         app.log.info("Server pinged successfully");
-    } catch (error) {
+    } catch (error: any) {
         app.log.error("Error pinging the server:", error.message);  // Log the error message if the ping fails
     }
 };

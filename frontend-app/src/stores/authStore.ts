@@ -32,7 +32,7 @@ export const useAuthStore = defineStore('auth', () => {
         try {
             const response = await axiosInstance.get(`/tasks?filter=${filter.value}&user_id=${userId}`);
             tasks.value = response.data.tasks;  // Assuming the response has 'tasks' field
-        } catch (error) {
+        } catch (error: any) {
             console.error('Error fetching tasks:', error.message);
         }
     };
@@ -47,7 +47,7 @@ export const useAuthStore = defineStore('auth', () => {
                 created_by: userId,  // Pass userId as number
             });
             tasks.value.push(response.data);  // Add task to local tasks array
-        } catch (error) {
+        } catch (error: any) {
             console.error('Error creating task:', error.message);
         }
     };
@@ -58,7 +58,7 @@ export const useAuthStore = defineStore('auth', () => {
         try {
             await axiosInstance.post('/tasks/share', { task_id: taskId, user_id: userId });
             console.log('Task shared successfully');
-        } catch (error) {
+        } catch (error: any) {
             console.error('Error sharing task:', error.message);
         }
     };

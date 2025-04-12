@@ -25,7 +25,7 @@ export const createUser = async (email: string, password: string) => {
             [email, password]
         );
         return result.rows[0]; // Return the created user
-    } catch (error) {
+    } catch (error: any) {
         throw new Error('Error creating user: ' + error.message);
     }
 };
@@ -34,7 +34,7 @@ export const createCustomToken = async (uid: string) => {
     try {
         const customToken = await admin.auth().createCustomToken(uid);
         return customToken;
-    } catch (error) {
+    } catch (error: any) {
         throw new Error('Error creating custom token: ' + error.message);
     }
 };
@@ -45,7 +45,7 @@ export const getAllTasks = async () => {
     try {
         const result = await client.query('SELECT * FROM tasks');
         return result.rows;
-    } catch (error) {
+    } catch (error: any) {
         throw new Error('Error fetching all tasks: ' + error.message);
     }
 };
@@ -58,7 +58,7 @@ export const getMyTasks = async (userId: number) => {
             [userId]
         );
         return result.rows;
-    } catch (error) {
+    } catch (error: any) {
         throw new Error('Error fetching my tasks: ' + error.message);
     }
 };
@@ -74,7 +74,7 @@ export const getSharedTasks = async (userId: number) => {
             [userId]
         );
         return result.rows;
-    } catch (error) {
+    } catch (error: any) {
         throw new Error('Error fetching shared tasks: ' + error.message);
     }
 };
@@ -87,7 +87,7 @@ export const createTask = async (title: string, description: string, created_by:
             [title, description, created_by]
         );
         return result.rows[0];  // Return created task
-    } catch (error) {
+    } catch (error: any) {
         throw new Error('Error creating task: ' + error.message);
     }
 };
@@ -100,7 +100,7 @@ export const shareTask = async (taskId: number, userId: number) => {
             [taskId, userId]
         );
         return result.rows[0];  // Return shared task entry
-    } catch (error) {
+    } catch (error: any) {
         throw new Error('Error sharing task: ' + error.message);
     }
 };
