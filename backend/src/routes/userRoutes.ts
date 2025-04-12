@@ -31,7 +31,7 @@ export default async function userRoutes(fastify: FastifyInstance) {
 
             // After user is created in Firebase, create the user in PostgreSQL
             const result = await createUser(email, password); // Save user info in DB
-            const newUser = userCredential.user;
+            const newUser = userCredential;
 
             // Optionally, you can return the user data or a token for subsequent requests
             const customToken = await admin.auth().createCustomToken(newUser.uid);
