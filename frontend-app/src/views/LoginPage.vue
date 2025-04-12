@@ -1,12 +1,14 @@
 <template>
-    <div>
-        <h1>Login</h1>
-        <form @submit.prevent="logIn">
-            <input v-model="email" placeholder="Email" type="email" required />
-            <input v-model="password" placeholder="Password" type="password" required />
-            <button type="submit">Log In</button>
-        </form>
-        <p>Don't have an account? <router-link to="/signup">Sign up here</router-link></p>
+    <div class="login-container">
+        <div class="login-box">
+            <h1>Login</h1>
+            <form @submit.prevent="logIn">
+                <input v-model="email" placeholder="Email" type="email" required />
+                <input v-model="password" placeholder="Password" type="password" required />
+                <button type="submit">Log In</button>
+            </form>
+            <p>Don't have an account? <router-link to="/signup">Sign up here</router-link></p>
+        </div>
     </div>
 </template>
 
@@ -36,6 +38,72 @@ const logIn = async () => {
     } else {
         console.error('Login failed, missing custom token or user ID');
     }
-    router.push('/dashboard')
+    router.push('/dashboard');
 };
 </script>
+
+<style scoped>
+/* Center the login form and background */
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #f0f2f5;
+    padding: 1rem;
+}
+
+.login-box {
+    background-color: white;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+    /* Limit max width */
+    text-align: center;
+}
+
+h1 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+}
+
+input {
+    width: 100%;
+    padding: 0.8rem;
+    margin-bottom: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1rem;
+}
+
+button {
+    width: 100%;
+    padding: 0.8rem;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+button:hover {
+    background-color: #218838;
+}
+
+p {
+    margin-top: 1rem;
+    font-size: 1rem;
+}
+
+a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+</style>

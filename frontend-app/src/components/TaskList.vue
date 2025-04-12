@@ -6,14 +6,15 @@
             <option value="shared">Shared Tasks</option>
         </select>
 
-        <ul>
-            <li v-for="task in filteredTasks" :key="task.id">
-                <span>{{ task.title }} - {{ task.description }}</span>
+        <div class="tasks-container">
+            <div class="task-box" v-for="task in filteredTasks" :key="task.id">
+                <span class="task-title">{{ task.title }}</span>
+                <p class="task-description">{{ task.description }}</p>
                 <button @click="shareTask(task.id)">Share</button>
-            </li>
-        </ul>
+            </div>
+        </div>
 
-        <button @click="createNewTask">Create Task</button>
+        <button @click="createNewTask" style="margin-top: 50px;">Create Task</button>
     </div>
 </template>
 
@@ -54,7 +55,7 @@ const shareTask = (taskId: number) => {
 
 <style scoped>
 .task-list {
-    max-width: 800px;
+    max-width: 1000px;
     margin: auto;
     padding: 1rem;
 }
@@ -75,5 +76,48 @@ button {
 
 button:hover {
     background-color: #218838;
+}
+
+.tasks-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    /* Space between the task boxes */
+}
+
+.task-box {
+    background-color: #f9f9f9;
+    padding: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    width: calc(33.333% - 1rem);
+    /* 3 items per row, accounting for spacing */
+    box-sizing: border-box;
+    text-align: center;
+}
+
+.task-title {
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.task-description {
+    margin: 0.5rem 0;
+    font-size: 1rem;
+    color: #666;
+}
+
+@media (max-width: 768px) {
+    .task-box {
+        width: calc(50% - 1rem);
+        /* 2 items per row on smaller screens */
+    }
+}
+
+@media (max-width: 480px) {
+    .task-box {
+        width: 100%;
+        /* 1 item per row on very small screens */
+    }
 }
 </style>
