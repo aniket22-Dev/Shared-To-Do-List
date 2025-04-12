@@ -8,7 +8,10 @@ export default async function taskRoutes(fastify: FastifyInstance) {
 
         try {
             const task = await createTask(title, description, created_by);  // Add task to DB
-            return reply.send(task);  // Return created task
+            return reply.send({
+                task, // The created task
+                userId: created_by  // Add userId to the response
+            });
         } catch (error) {
             return reply.status(400).send({ error: error.message });
         }
@@ -20,7 +23,10 @@ export default async function taskRoutes(fastify: FastifyInstance) {
 
         try {
             const sharedTask = await shareTask(task_id, user_id);  // Share task in DB
-            return reply.send(sharedTask);
+            return reply.send({
+                sharedTask, // The shared task entry
+                userId: user_id  // Add userId to the response
+            });
         } catch (error) {
             return reply.status(400).send({ error: error.message });
         }
@@ -42,7 +48,11 @@ export default async function taskRoutes(fastify: FastifyInstance) {
             } else {
                 return reply.status(400).send({ error: 'Invalid filter or missing user ID' });
             }
-            return reply.send(tasks);
+            console.log('user', user_id)
+            return reply.send({
+                tasks, // The list of tasks
+                userId: user_id  // Add userId to the response
+            });
         } catch (error) {
             return reply.status(400).send({ error: error.message });
         }
@@ -54,7 +64,10 @@ export default async function taskRoutes(fastify: FastifyInstance) {
 
         try {
             const tasks = await getMyTasks(user_id);  // Fetch tasks created by the user
-            return reply.send(tasks);
+            return reply.send({
+                tasks,  // The tasks created by the user
+                userId: user_id  // Add userId to the response
+            });
         } catch (error) {
             return reply.status(400).send({ error: error.message });
         }
@@ -66,7 +79,10 @@ export default async function taskRoutes(fastify: FastifyInstance) {
 
         try {
             const tasks = await getSharedTasks(user_id);  // Fetch shared tasks
-            return reply.send(tasks);
+            return reply.send({
+                tasks,  // The tasks shared with the user
+                userId: user_id  // Add userId to the response
+            });
         } catch (error) {
             return reply.status(400).send({ error: error.message });
         }
