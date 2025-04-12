@@ -28,3 +28,5 @@ coverage
 
 .vscode
 dist
+backend/.env
+backend/firebase-credentials.json
