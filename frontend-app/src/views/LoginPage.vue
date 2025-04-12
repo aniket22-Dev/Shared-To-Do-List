@@ -33,7 +33,7 @@ const logIn = async () => {
 
         // Redirect to dashboard
         router.push('/dashboard');
-    } catch (error) {
+    } catch (error: any) {
         console.error('Error logging in:', error.response?.data?.error || error.message);
     }
 };

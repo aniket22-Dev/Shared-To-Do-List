@@ -27,8 +27,8 @@ const signUp = async () => {
         });
 
         // Redirect to login page after successful signup
-        router.push('/login');
-    } catch (error) {
+        router.push('/');
+    } catch (error: any) {
         console.error('Error signing up:', error.response?.data?.error || error.message);
     }
 };

@@ -15,6 +15,6 @@ const authStore = useAuthStore();
 
 const logOut = () => {
     authStore.logout();
-    router.push('/login');  // Redirect to login after logout
+    router.push('/');  // Redirect to login after logout
 };
 </script>
