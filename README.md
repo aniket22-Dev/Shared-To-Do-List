@@ -107,8 +107,7 @@ FIREBASE_CLIENT_EMAIL=firebase-adminsdk-fbsvc@shared-to-do-list-a3316.iam.gservi
 FIREBASE_CLIENT_ID=101689181505792620509
 FIREBASE_AUTH_URI=https://accounts.google.com/o/oauth2/auth
 FIREBASE_TOKEN_URI=https://oauth2.googleapis.com/token
-```
 FIREBASE_CLIENT_X509_CERT_URL=https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-fbsvc%40shared-to-do-list-a3316.iam.gserviceaccount.com
-
+```
 
 
