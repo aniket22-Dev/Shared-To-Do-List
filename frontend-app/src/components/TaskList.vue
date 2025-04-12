@@ -1,19 +1,15 @@
 <template>
-    <div>
-        <h2>Tasks</h2>
-
-        <!-- Task filter dropdown -->
+    <div class="task-list">
         <select v-model="filter" @change="updateFilter">
             <option value="all">All Tasks</option>
             <option value="my">My Tasks</option>
             <option value="shared">Shared Tasks</option>
         </select>
 
-        <!-- List of tasks -->
         <ul>
             <li v-for="task in filteredTasks" :key="task.id">
-                <p>{{ task.title }} - {{ task.description }}</p>
-                <button @click="shareTask(task.id)">Share Task</button>
+                <span>{{ task.title }} - {{ task.description }}</span>
+                <button @click="shareTask(task.id)">Share</button>
             </li>
         </ul>
 
@@ -43,7 +39,6 @@ const updateFilter = () => {
 
 // Create a new task (show modal or redirect to create task page)
 const createNewTask = () => {
-    // Collect title and description dynamically, for now using placeholders
     const title = prompt('Enter Task Title', 'New Task');
     const description = prompt('Enter Task Description', 'Task description');
     if (title && description) {
@@ -59,7 +54,6 @@ const shareTask = (taskId: number) => {
 </script>
 
 <style scoped>
-/* Add styles here */
 .task-list {
     max-width: 800px;
     margin: auto;

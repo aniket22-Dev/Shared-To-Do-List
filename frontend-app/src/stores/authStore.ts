@@ -4,7 +4,7 @@ import axiosInstance from '../axiosInstance';  // Assuming axiosInstance is set 
 
 export const useAuthStore = defineStore('auth', () => {
     const user = ref<any>(null);  // Store user data
-    const token = ref<string | null>(null);  // Store JWT token
+    const token = ref<string | null>(localStorage.getItem('authToken') || null);  // Store JWT token
     const tasks = ref<any[]>([]);  // Store tasks data
     const filter = ref('all');  // Store filter (all, my, shared)
 
@@ -26,10 +26,12 @@ export const useAuthStore = defineStore('auth', () => {
         localStorage.removeItem('authToken');  // Remove token from localStorage
     };
 
-    // Fetch tasks from backend
+    // Fetch tasks based on filter (all, my, shared)
     const fetchTasks = async () => {
+        if (!token.value) return;
+
         try {
-            const response = await axiosInstance.get('/tasks');  // Replace with your actual task API endpoint
+            const response = await axiosInstance.get(`/tasks?filter=${filter.value}&user_id=${user.value?.id}`);
             tasks.value = response.data;
         } catch (error) {
             console.error('Error fetching tasks:', error.message);
@@ -40,7 +42,6 @@ export const useAuthStore = defineStore('auth', () => {
     const createTask = async (title: string, description: string) => {
         if (!user.value) {
             console.error('User is not authenticated');
-            // Optionally, you can redirect to the login page or show an error message
             return;
         }
 
@@ -56,36 +57,44 @@ export const useAuthStore = defineStore('auth', () => {
         }
     };
 
-    // Share a task with another user
+    // Share a task
     const shareTask = async (taskId: number, userId: number) => {
         try {
-            const response = await axiosInstance.post('/tasks/share', {
-                task_id: taskId,
-                user_id: userId,
-            });
-            console.log('Task shared successfully:', response.data);
-        } catch (error: any) {
+            await axiosInstance.post('/tasks/share', { task_id: taskId, user_id: userId });
+            console.log('Task shared successfully');
+        } catch (error) {
             console.error('Error sharing task:', error.message);
         }
     };
 
-    // Get filtered tasks based on the current filter
-    const getFilteredTasks = () => {
-        switch (filter.value) {
-            case 'my':
-                return tasks.value.filter(task => task.created_by === user.value.id);  // Filter by user ID
-            case 'shared':
-                return tasks.value.filter(task => task.shared_with.includes(user.value.id));  // Filter by shared tasks
-            case 'all':
-            default:
-                return tasks.value;
-        }
-    };
-
-    // Set the filter value
+    // Set filter and fetch tasks accordingly
     const setFilter = (newFilter: string) => {
         filter.value = newFilter;
+        fetchTasks();
     };
 
-    return { user, token, tasks, filter, setUser, setToken, logout, fetchTasks, createTask, shareTask, getFilteredTasks, setFilter };
+    // Get filtered tasks
+    const getFilteredTasks = () => {
+        return tasks.value.filter(task => {
+            // Filtering based on task type (you can expand this logic if needed)
+            return filter.value === 'all' ||
+                (filter.value === 'my' && task.created_by === user.value.id) ||
+                (filter.value === 'shared' && task.shared_with.includes(user.value.id));
+        });
+    };
+
+    return {
+        user,
+        token,
+        tasks,
+        filter,
+        setUser,
+        setToken,
+        logout,
+        fetchTasks,
+        createTask,
+        shareTask,
+        setFilter,
+        getFilteredTasks,
+    };
 });

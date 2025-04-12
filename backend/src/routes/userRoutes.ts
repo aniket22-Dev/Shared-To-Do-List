@@ -8,22 +8,45 @@ export default async function userRoutes(fastify: FastifyInstance) {
         const { email, password } = request.body as { email: string; password: string };
 
         try {
-            // Check if user already exists
-            const userRecord = await admin.auth().getUserByEmail(email);
+            // Check if the user already exists in Firebase
+            let userRecord;
+            try {
+                userRecord = await admin.auth().getUserByEmail(email);
+            } catch (error) {
+                if (error.code !== 'auth/user-not-found') {
+                    // If error is not user-not-found, rethrow it
+                    throw error;
+                }
+            }
+
             if (userRecord) {
                 return reply.status(400).send({ error: 'User already exists' });
             }
 
-            // Create user in Firebase
-            await admin.auth().createUser({
+            // Create the user in Firebase
+            const userCredential = await admin.auth().createUser({
                 email,
                 password,
             });
 
-            // Optionally, create the user in PostgreSQL if needed
-            const result = await createUser(email, password); // Save additional user info here
-            return reply.send(result);
+            // After user is created in Firebase, create the user in PostgreSQL
+            const result = await createUser(email, password); // Save user info in DB
+            const newUser = userCredential.user;
+
+            // Optionally, you can return the user data or a token for subsequent requests
+            const customToken = await admin.auth().createCustomToken(newUser.uid);
+
+            // Respond with user data and custom token for the frontend to use
+            return reply.send({
+                message: 'User created successfully',
+                customToken,
+                user: {
+                    email: newUser.email,
+                    uid: newUser.uid,
+                },
+            });
         } catch (error) {
+            console.error('Error during sign up:', error);
             return reply.status(400).send({ error: error.message });
         }
     });
