@@ -2,20 +2,22 @@
   "name": "backend",
   "version": "1.0.0",
   "main": "../src/index.ts",
-  "type": "module",
   "scripts": {
-    "start": "NODE_OPTIONS='--loader ts-node/esm' ts-node src/index.ts"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "ts-node src/index.ts"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "dotenv": "^16.5.0",
     "fastify": "^5.2.2",
     "firebase-admin": "^13.2.0",
     "pg": "^8.14.1"
   },
   "devDependencies": {
+    "@types/node": "^22.14.1",
     "ts-node": "^10.9.2",
     "typescript": "^5.8.3"
   }
