@@ -1,6 +1,5 @@
 import { Client } from 'pg';
 import admin from './firebase';
-require('dotenv').config();
 
 // PostgreSQL client connection setup
 export const client = new Client({
@@ -9,10 +8,15 @@ export const client = new Client({
     user: process.env.DB_USER,
     password: process.env.DB_PASSWORD,
     database: process.env.DB_NAME,
+    ssl: {
+        rejectUnauthorized: false,
+    },
 });
 
 // Connect to PostgreSQL
-client.connect();
+client.connect()
+    .then(() => console.log('Connected to PostgreSQL!'))
+    .catch((err: { stack: any; }) => console.error('Connection error', err.stack));
 
 export const createUser = async (email: string, password: string) => {
     try {
