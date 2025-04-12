@@ -99,6 +99,7 @@ Create a `.env` file in the `backend` directory and add the following environmen
 
 
 # Firebase Configuration
+```bash
 FIREBASE_PROJECT_ID=shared-to-do-list-a3316
 FIREBASE_PRIVATE_KEY_ID=a5bd2dbe154b017214431da440d3d4c246209779
 FIREBASE_PRIVATE_KEY="-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCo4iMytTUKZkcW\n7Ie+QAUEEKCbIWHppedTUoHxsWITwSe5cwELTWuWHuHSu4DBlZ4zwWfpF1izYm9I\nlZaN1IpNaIcF1VIt7hrVkrm26qXiW4hF4TzTY4w94VKN0JQhZpOI9KzplhMCvKBD\nl5kQL60xUw/cJxrneVzp/AkiQ1N6LDQ1SeUWK166nHBaNVhKtsuxGxQX8bmfHIyD\nfkmIXRAroDQp5PrfDqzfMvcs0tGLYNL5L7232p/F3uX7BEqvFPx3aSzk
@@ -106,6 +107,7 @@ FIREBASE_CLIENT_EMAIL=firebase-adminsdk-fbsvc@shared-to-do-list-a3316.iam.gservi
 FIREBASE_CLIENT_ID=101689181505792620509
 FIREBASE_AUTH_URI=https://accounts.google.com/o/oauth2/auth
 FIREBASE_TOKEN_URI=https://oauth2.googleapis.com/token
+```
 FIREBASE_CLIENT_X509_CERT_URL=https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-fbsvc%40shared-to-do-list-a3316.iam.gserviceaccount.com
 
 
