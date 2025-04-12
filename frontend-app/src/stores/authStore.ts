@@ -28,11 +28,10 @@ export const useAuthStore = defineStore('auth', () => {
 
     // Fetch tasks based on filter (all, my, shared)
     const fetchTasks = async () => {
-        if (!token.value) return;
-
+        const userId = Number(localStorage.getItem('userId'));  // Ensure userId is treated as a number
         try {
-            const response = await axiosInstance.get(`/tasks?filter=${filter.value}&user_id=${user.value?.id}`);
-            tasks.value = response.data;
+            const response = await axiosInstance.get(`/tasks?filter=${filter.value}&user_id=${userId}`);
+            tasks.value = response.data.tasks;  // Assuming the response has 'tasks' field
         } catch (error) {
             console.error('Error fetching tasks:', error.message);
         }
@@ -40,16 +39,12 @@ export const useAuthStore = defineStore('auth', () => {
 
     // Create a new task
     const createTask = async (title: string, description: string) => {
-        if (!user.value) {
-            console.error('User is not authenticated');
-            return;
-        }
-
+        const userId = Number(localStorage.getItem('userId'));  // Ensure userId is treated as a number
         try {
             const response = await axiosInstance.post('/tasks', {
                 title,
                 description,
-                created_by: user.value.id,  // Assuming user.id is available
+                created_by: userId,  // Pass userId as number
             });
             tasks.value.push(response.data);  // Add task to local tasks array
         } catch (error) {
@@ -58,7 +53,8 @@ export const useAuthStore = defineStore('auth', () => {
     };
 
     // Share a task
-    const shareTask = async (taskId: number, userId: number) => {
+    const shareTask = async (taskId: number) => {
+        const userId = Number(localStorage.getItem('userId'));  // Ensure userId is treated as a number
         try {
             await axiosInstance.post('/tasks/share', { task_id: taskId, user_id: userId });
             console.log('Task shared successfully');
@@ -75,12 +71,19 @@ export const useAuthStore = defineStore('auth', () => {
 
     // Get filtered tasks
     const getFilteredTasks = () => {
-        return tasks.value.filter(task => {
-            // Filtering based on task type (you can expand this logic if needed)
+        // Ensure tasks.value is always an array (initialize if undefined)
+        const tasksArray = Array.isArray(tasks.value) ? tasks.value : [];
+        const userId = Number(localStorage.getItem('userId'));  // Convert to number
+
+        const filteredTasks = tasksArray.filter(task => {
+            // Filtering logic based on task type (all, my, shared)
             return filter.value === 'all' ||
-                (filter.value === 'my' && task.created_by === user.value.id) ||
-                (filter.value === 'shared' && task.shared_with.includes(user.value.id));
+                (filter.value === 'my' && task.created_by === userId) ||
+                (filter.value === 'shared' && task.shared_with && task.shared_with.includes(userId));
         });
+
+        console.log("Filtered tasks:", filteredTasks);
+        return filteredTasks;
     };
 
     return {

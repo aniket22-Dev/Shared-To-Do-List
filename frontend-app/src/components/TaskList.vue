@@ -48,8 +48,7 @@ const createNewTask = () => {
 
 // Share a task (show modal or share task directly)
 const shareTask = (taskId: number) => {
-    const userId = 1;  // Example user ID to share with
-    taskStore.shareTask(taskId, userId);
+    taskStore.shareTask(taskId);  // Share task using the taskStore
 };
 </script>
 

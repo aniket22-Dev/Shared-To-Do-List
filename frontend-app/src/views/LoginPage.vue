@@ -22,19 +22,20 @@ const router = useRouter();
 const authStore = useAuthStore();
 
 const logIn = async () => {
-    try {
-        const response = await axiosInstance.post('/login', {
-            email: email.value,
-            password: password.value,
-        });
+    const response = await axiosInstance.post('/login', {
+        email: email.value,
+        password: password.value,
+    });
 
-        // Save token in store and localStorage
-        authStore.setToken(response.data.customToken);
+    if (response.data.customToken && response.data.userId) {
+        // Store the custom token and user ID in localStorage
+        localStorage.setItem('customToken', response.data.customToken);
+        localStorage.setItem('userId', response.data.userId);
 
-        // Redirect to dashboard
-        router.push('/dashboard');
-    } catch (error: any) {
-        console.error('Error logging in:', error.response?.data?.error || error.message);
+        console.log('Login successful, user authenticated.');
+    } else {
+        console.error('Login failed, missing custom token or user ID');
     }
+    router.push('/dashboard')
 };
 </script>
