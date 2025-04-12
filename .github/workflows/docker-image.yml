@@ -23,14 +23,8 @@ jobs:
       run: |
         sudo docker-compose -f docker-compose.yml build
 
-    - name: Save Docker image as an artifact
+    - name: Save Docker image to a tar file (skip upload)
       run: |
         IMAGE_TAG=my-image-name:$(date +%s)
         sudo docker-compose -f docker-compose.yml build
         sudo docker save $IMAGE_TAG -o my-image-name.tar
-
-    - name: Upload Docker image as an artifact
-      uses: actions/upload-artifact@v2
-      with:
-        name: docker-image
-        path: my-image-name.tar
