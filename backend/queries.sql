@@ -17,7 +17,7 @@ create table tasks (
    created_at  timestamp default current_timestamp
 );
 
--- Create Shared Tasks Table
+-- Create Shared Tasks Table (many-to-many relationship between users and tasks)
 create table shared_tasks (
    task_id int
       references tasks ( id )
@@ -28,3 +28,13 @@ create table shared_tasks (
    primary key ( task_id,
                  user_id )
 );
+
+-- Add Indexes for Faster Filtering (Optional but recommended)
+create index idx_tasks_created_by on
+   tasks (
+      created_by
+   );
+create index idx_shared_tasks_user_id on
+   shared_tasks (
+      user_id
+   );
