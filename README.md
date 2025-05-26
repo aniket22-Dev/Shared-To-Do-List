@@ -1,3 +1,5 @@
+[![Docker Image CI](https://github.com/aniket22-Dev/Shared-To-Do-List/actions/workflows/docker-image.yml/badge.svg?branch=main)](https://github.com/aniket22-Dev/Shared-To-Do-List/actions/workflows/docker-image.yml)
+
 # Shared To-Do List
 
 ## Objective
